@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../helpers';
 
-const baseURL = 'https://dotmac-backend.herokuapp.com/api/';
-// const baseURL = 'http://localhost:4000/api/';
+const baseURL = 'http://localhost:4000/api/';
 
 const setHeader = () => {
     const config = {
