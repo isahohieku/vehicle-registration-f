@@ -139,17 +139,17 @@ export default function Settings() {
                 {/* About Me */}
                 <Row>
                     <Col id="personal">
-                        <Card class="mb-4">
-                            <div class="card-header">
-                                <h5 class="card_title mb-0">About Me</h5>
+                        <Card className="mb-4">
+                            <div className="card-header">
+                                <h5 className="card_title mb-0">About Me</h5>
                             </div>
-                            <div class="card-block">
-                                <div class="view-info">
-                                    <div class="general-info">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-xl-6">
-                                                <div class="table-responsive">
-                                                    <table class="table m-0">
+                            <div className="card-block">
+                                <div className="view-info">
+                                    <div className="general-info">
+                                        <div className="row">
+                                            <div className="col-lg-12 col-xl-6">
+                                                <div className="table-responsive">
+                                                    <table className="table m-0">
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Full Name</th>
@@ -172,9 +172,9 @@ export default function Settings() {
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-xl-6">
-                                                <div class="table-responsive">
-                                                    <table class="table">
+                                            <div className="col-lg-12 col-xl-6">
+                                                <div className="table-responsive">
+                                                    <table className="table">
                                                         <tbody>
 
                                                             <tr>
