@@ -1,15 +1,19 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { Container, Row, Col, Modal, Card, Badge, NavLink } from 'react-bootstrap';
+import React, { Fragment, useState } from 'react';
+import { Container, Row, Col, Modal, Card, NavLink } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import { getUserData, setUserData } from '../../utils/helpers';
+import { updateRequest } from '../../utils/axios';
 import states from '../../utils/states';
 import genders from '../../utils/genders';
+import { getFullMonth } from '../../utils/month';
 import HeaderBg from '../../img/lock-bg.jpg';
 import Avatar from '../../img/team/member2.jpg';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Settings() {
 
 
-    // const [user] = useState(() => getUserData());
-    const [user] = useState({ fullName: 'Isah Ohieku' });
+    const [user, setUser] = useState(() => getUserData());
     const [modal, setModal] = useState(false);
     const [updateProfileLoading, setUpdateProfileLoading] = useState(false);
 
@@ -18,7 +22,7 @@ export default function Settings() {
         gender: { value: 'null', error: '' },
         occupation: { value: '', error: '' },
         address: { value: '', error: '' },
-        dob: { value: '', error: '' },
+        dob: { value: new Date(), error: '' },
     });
 
     const toggle = () => {
@@ -29,6 +33,72 @@ export default function Settings() {
         const copy = { ...profileForm };
         copy[e.target.name].value = e.target.value;
         setProfileForm(copy);
+    }
+
+    const onDobChange = (dob) => {
+        const copy = { ...profileForm };
+        copy.dob.value = dob;
+        setProfileForm(copy);
+    }
+
+    const onsubmit = e => {
+        e.preventDefault();
+        const { stateOfOrigin, gender, occupation, address, dob } = profileForm;
+        stateOfOrigin.error = '';
+        gender.error = '';
+        occupation.error = '';
+        address.error = '';
+        dob.error = '';
+
+        if (stateOfOrigin.value === 'null') {
+            stateOfOrigin.error = 'Please select State';
+        }
+
+        if (gender.value === 'null') {
+            gender.error = 'Please select Gender';
+        }
+
+        if (!occupation.value) {
+            occupation.error = 'Please enter your occupation';
+        }
+
+        if (!address.value) {
+            address.error = 'Please enter your address';
+        }
+
+        setProfileForm({ stateOfOrigin, gender, occupation, address, dob });
+
+        if (stateOfOrigin.error ||
+            gender.error ||
+            occupation.error
+            || address.error || dob.error) {
+            return;
+        }
+
+        const path = 'user';
+        const data = {
+            id: user.id,
+            stateOfOrigin: stateOfOrigin.value,
+            gender: gender.value,
+            occupation: occupation.value,
+            dob: dob.value,
+            address: address.value,
+        }
+
+        setUpdateProfileLoading(true);
+        updateRequest(path, data)
+            .then(res => {
+                setUpdateProfileLoading(false);
+                setUserData(res.data.data);
+                setUser(res.data.data)
+                toggle();
+            })
+            .catch(e => { console.log(e); setUpdateProfileLoading(false); });
+    }
+
+    const getDate = (item) => {
+        const date = new Date(item);
+        return `${getFullMonth(date.getMonth())} ${date.getDate()}, ${date.getFullYear()}`
     }
 
     return (
@@ -48,8 +118,8 @@ export default function Settings() {
                                         <div className="media-body row">
                                             <div className="col-lg-12">
                                                 <div className="user-title">
-                                                    <h2>{user.fullName}</h2>
-                                                    <span className="text-white"></span>
+                                                    <h2>{user.firstName} {user.lastName}</h2>
+                                                    <span className="text-white">{user.occupation}</span>
                                                 </div>
                                             </div>
                                             <div>
@@ -83,19 +153,19 @@ export default function Settings() {
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Full Name</th>
-                                                                <td>David Jhon</td>
+                                                                <td>{user.firstName} {user.lastName}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Gender</th>
-                                                                <td>Male</td>
+                                                                <td><span className="text-capitalize">{user.gender}</span></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Email</th>
-                                                                <td><a href="#!">example@example.com</a></td>
+                                                                <td><NavLink className="pl-0">{user.email}</NavLink></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Birth Date</th>
-                                                                <td>April 12, 1990</td>
+                                                                <td>{user.dob && getDate(user.dob)}</td>
                                                             </tr>
 
                                                         </tbody>
@@ -109,15 +179,15 @@ export default function Settings() {
 
                                                             <tr>
                                                                 <th scope="row">Occupation</th>
-                                                                <td>(4479) - 9876567</td>
+                                                                <td>{user.occupation}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">State of Origin</th>
-                                                                <td>Single</td>
+                                                                <td>{user.stateOfOrigin}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Residential Address</th>
-                                                                <td>London, UK</td>
+                                                                <td>{user.address}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -164,6 +234,19 @@ export default function Settings() {
                                 {genders.map(type => <option value={type} key={type}>{type}</option>)}
                             </select>
                             {profileForm.gender.error && <div className="form-control-feedback text-danger text-small">{profileForm.gender.error}</div>}
+                        </div>
+
+                        {/* Date of Birth */}
+                        <div className="form-group mb-0 had-danger">
+                            <p className="col-form-label">Date of Birth</p>
+                            <DatePicker
+                                onChange={onDobChange}
+                                selected={profileForm.dob.value}
+                                placeholderText='Date of Birth'
+                                className='border form-control'
+                                value={profileForm.dob.value}
+                            />
+                            {profileForm.dob.error && <div className="form-control-feedback text-danger text-small">{profileForm.dob.error}</div>}
                         </div>
 
                         {/* State of Origin */}

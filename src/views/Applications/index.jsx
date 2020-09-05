@@ -4,6 +4,7 @@ import { Plus } from 'react-feather';
 import { getUserData } from '../../utils/helpers/index';
 import { postRequest, getRequest } from '../../utils/axios';
 import ApplicationsTable from '../../components/ApplicationsTable';
+import Loader from '../../components/Loader';
 import states from '../../utils/states';
 import vehicles from '../../utils/vehicles';
 import './index.scss';
@@ -21,7 +22,7 @@ export default function Applications() {
     });
 
     useEffect(() => {
-        // getApplications();
+        getApplications();
     }, [user]);
 
     const toggle = () => {
@@ -67,11 +68,12 @@ export default function Applications() {
             return;
         }
 
-        const path = 'application';
+        const path = 'applications';
         const data = {
-            vehicle: vehicleType.value,
+            id: user.id,
+            type: vehicleType.value,
             state: applicationState.value,
-            occurence: applicationType.value
+            trials: applicationType.value
         }
 
         setaddApplicationsLoading(true);
@@ -97,17 +99,19 @@ export default function Applications() {
                 </Row>
                 <Row>
                     <Col>
-                        <Card className="mt-5 border-0">
+                        {!applicationsLoading && <Card className="mt-5 border-0">
                             <Card.Body>
                                 <h4 className="card_title">All Applications</h4>
                                 <div className="single-table">
                                     <div className="table-responsive">
-                                        {!applicationsLoading && applications.length ? 
-                                        <ApplicationsTable /> : <p className="text-center er-text-primary my-5">No Applications Found</p>}
+                                        {!applicationsLoading && applications.length ?
+                                            <ApplicationsTable applications={applications} /> : <p className="text-center er-text-primary my-5">No Applications Found</p>}
                                     </div>
                                 </div>
                             </Card.Body>
-                        </Card>
+                        </Card>}
+
+                        {applicationsLoading && <Loader />}
                     </Col>
                 </Row>
             </Container>

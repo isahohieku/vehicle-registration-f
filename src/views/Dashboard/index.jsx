@@ -7,11 +7,8 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-function Dashboard({ auth }) {
+function Dashboard() {
     const [openMenu, setOpenMenu] = useState(false);
-    // if (!auth) {
-    //     return;
-    // }
     return (
         <div className="vz_main_sec">
             <Sidebar openMenu={openMenu} />

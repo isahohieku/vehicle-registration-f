@@ -14,7 +14,9 @@ function ConfirmMail({ location, history }) {
 
         updateRequest(url, data)
             .then(res => {
-                (res.data.status === 'success') && history.push('/');
+                if (res.data.code === 'SUCCESS') {
+                    history.push('/');
+                }
             })
             .catch(e => { console.log(e); });
     }, [query.get('token')]);

@@ -5,22 +5,22 @@ export default function ApplicationsTable({ applications }) {
         <table className="table table-bordered text-center">
             <thead className="text-uppercase">
                 <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Added by</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Approved By</th>
+                    <th scope="col">Application type</th>
+                    <th scope="col">Application</th>
+                    <th scope="col">Application date</th>
+                    <th scope="col">Approved By Reviewer</th>
+                    <th scope="col">Approved By Processor</th>
+                    <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody>
                 {applications.map(item => <tr key={item._id}>
-                    <td>{item.title}</td>
-                    <td>{item.description}</td>
-                    <td>{item.createdBy.fullName}</td>
+                    <td>{item.type}</td>
+                    <td>{item.trials === 'first' ? 'First time' : 'Renewal'}</td>
                     <td>{item.createdAt}</td>
-                    <td>{item.amount}</td>
-                    <td>{item.approvedBy}</td>
+                    <td>{item.isReviewerApproved ? 'Approved': 'Pending'}</td>
+                    <td>{item.isProcessorApproved ? 'Approved': 'Pending'}</td>
+                    <td><span className="text-capitalize">{item.status}</span></td>
                 </tr>)}
             </tbody>
         </table>

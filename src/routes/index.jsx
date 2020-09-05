@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import RestrictedRoute from '../routes/private-routes';
 
 //Views
 import Home from '../views/Home';
@@ -17,7 +18,7 @@ const Routes = () => (
         <Route path='/confirm-email' component={ConfirmMail} />
         <Route path='/forgot-password' component={ForgotPassword} />
         <Route path='/reset-password' component={ResetPassword} />
-        <Route path="/app" component={Dashboard} />
+        <Route path="/app" component={RestrictedRoute(Dashboard)} />
       </Switch>
     </Router>
 );

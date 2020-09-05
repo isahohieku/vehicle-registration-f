@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getToken, getUserData } from '../../util/helpers';
+import { getToken, getUserData } from '../../utils/helpers';
 // import Toast from './util/toast';
 import * as actions from '../../store/actions';
 
@@ -21,9 +21,6 @@ export default (ChildComponent) => {
                 this.props.changeAuth(false);
                 return;
             }
-
-            // Restrict modules by user role here
-            // checkIfShouldAccessDashbord()
         }
 
         checkLocalStorage() {
@@ -31,20 +28,6 @@ export default (ChildComponent) => {
                 return false;
             }
             return true;
-        }
-
-        checkIfShouldAccessDashbord(location, role) {
-            if (this.checkLocation(location) && !getUserData().roles.includes(role)) {
-                Toast('You have no access to this dashboard', 'error');
-                this.props.history.push('/');
-                localStorage.clear();
-                return;
-            }
-        }
-
-        checkLocation(term) {
-            const result = this.props.location.pathname.includes(term);
-            return result;
         }
 
         render() {

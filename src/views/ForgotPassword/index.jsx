@@ -58,7 +58,7 @@ function ForgotPassword({history}) {
         postRequest(path, data)
             .then(res => {
                 setLoading(false);
-                // history.push('/organizations');
+                history.push('/');
             })
             .catch(e => { console.log(e); setLoading(false); });
     }

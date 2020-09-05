@@ -75,7 +75,7 @@ function Home({ changeAuth, history }) {
                 setUserData(res.data.data);
                 setLoading(false);
                 changeAuth(true);
-                history.push('/organizations');
+                history.push('/app');
             })
             .catch(e => { console.log(e); setLoading(false); });
     }

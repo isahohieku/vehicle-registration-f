@@ -58,7 +58,7 @@ function ResetPassword({ location, history }) {
         postRequest(path, data)
             .then(res => {
                 setLoading(false);
-                (res.data.status === 'success') && history.push('/');
+                (res.data.code === 'SUCCESS') && history.push('/');
             })
             .catch(e => { console.log(e); setLoading(false); });
     }

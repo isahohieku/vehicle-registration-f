@@ -4,6 +4,7 @@ import { CheckCircle, XCircle, MoreHorizontal } from 'react-feather';
 import { getUserData } from '../../utils/helpers';
 import { getRequest } from '../../utils/axios';
 import ApplicationsTable from '../../components/ApplicationsTable';
+import Loader from '../../components/Loader';
 
 import BackImage from '../../img/icon-bg.png';
 
@@ -25,7 +26,7 @@ export default function MainDashboard() {
             .then(res => {
                 setApplicationsLoading(false);
                 if (res.data.data.length) {
-                    setApplications(res.data.data[0]);
+                    setApplications(res.data.data);
                 }
             })
             .catch(e => { console.log(e); setApplicationsLoading(false) });
@@ -44,7 +45,7 @@ export default function MainDashboard() {
                                 </span>
                                 <div className="icon_specs">
                                     <p>Approved</p>
-                                    <span>{applications.length}</span>
+                                    <span>{applications.filter(item => item.status === 'approved').length}</span>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -58,7 +59,7 @@ export default function MainDashboard() {
                                 </span>
                                 <div className="icon_specs">
                                     <p>Rejected</p>
-                                    <span>{applications.length}</span>
+                                    <span>{applications.filter(item => item.status === 'rejected').length}</span>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -72,7 +73,7 @@ export default function MainDashboard() {
                                 </span>
                                 <div className="icon_specs">
                                     <p>Pending</p>
-                                    <span>{applications.length}</span>
+                                    <span>{applications.filter(item => item.status === 'pending').length}</span>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -80,17 +81,19 @@ export default function MainDashboard() {
                 </Row>
                 <Row>
                     <Col>
-                        <Card className="mt-5 border-0">
+                        {!applicationsLoading && <Card className="mt-5 border-0">
                             <Card.Body>
                                 <h4 className="card_title">Recent Applications</h4>
                                 <div className="single-table">
                                     <div className="table-responsive">
                                         {!applicationsLoading && applications.length ?
-                                            <ApplicationsTable /> : <p className="text-center er-text-primary my-5">No Applications Found</p>}
+                                            <ApplicationsTable applications={applications} /> : <p className="text-center er-text-primary my-5">No Applications Found</p>}
                                     </div>
                                 </div>
                             </Card.Body>
-                        </Card>
+                        </Card>}
+
+                        {applicationsLoading && <Loader />}
                     </Col>
                 </Row>
             </Container>
