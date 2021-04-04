@@ -7,6 +7,8 @@ import * as actions from '../../store/actions';
 export default (ChildComponent) => {
     class ComposedComponent extends Component {
 
+        component
+
         componentDidMount() {
             this.navigateAway();
         }

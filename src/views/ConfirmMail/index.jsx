@@ -6,7 +6,7 @@ function ConfirmMail({ location, history }) {
     const query = new URLSearchParams(location.search);
 
     useEffect(() => {
-        const url = `auth/user/confirm-email`;
+        const url = `user/confirm-email`;
         const data = {
             verificationToken: query.get('token'),
             email: query.get('email')
