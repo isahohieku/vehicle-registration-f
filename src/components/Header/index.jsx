@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Lock, ChevronDown, Bell, Mail, Power } from 'react-feather';
-import { Dropdown } from 'react-bootstrap';
 import { getUserData } from '../../utils/helpers/';
 import LogoDark from '../../svg/logo-dark.svg';
 import ProfileImage from '../../img/author-img1.jpg';
@@ -11,8 +10,7 @@ function Header({ openMenu, history }) {
     const [messageDropdownOpen, setMessageDropdownOpen] = useState(false);
     const toggleMessageDropdown = () => setMessageDropdownOpen(!messageDropdownOpen);
     const [toggleOpenMenu, setOpenMenu] = useState(false);
-    // const [user] = useState(() => getUserData());
-    const [user] = useState({fullName: 'Isah Ohieku'});
+    const [user] = useState(() => getUserData());
 
     const logout = () => {
         localStorage.clear();
@@ -34,7 +32,7 @@ function Header({ openMenu, history }) {
                                     <span className="profile_sec">
 
                                         <span className="profile_name">
-                                            <span className="hi_name">Hello,</span> {user.fullName} <i className=""><ChevronDown size={14} /></i>
+                                            <span className="hi_name">Hello,</span> {user.firstName} {user.lastName} <i className=""><ChevronDown size={14} /></i>
                                         </span>
                                         <img src={ProfileImage} alt="profile" />
                                     </span>
@@ -56,7 +54,6 @@ function Header({ openMenu, history }) {
                             <li className="nav-item d_none_sm">
                                 <button className="btn nav-link logout_link" onClick={() => logout()}>
                                     Logout <i><Power size={16} /></i>
-
                                 </button>
                             </li>
                         </ul>

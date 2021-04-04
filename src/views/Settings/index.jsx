@@ -12,11 +12,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Settings() {
 
-
-    const [user, setUser] = useState(() => getUserData());
     const [modal, setModal] = useState(false);
     const [updateProfileLoading, setUpdateProfileLoading] = useState(false);
-
     const [profileForm, setProfileForm] = useState({
         stateOfOrigin: { value: 'null', error: '' },
         gender: { value: 'null', error: '' },
@@ -24,6 +21,8 @@ export default function Settings() {
         address: { value: '', error: '' },
         dob: { value: new Date(), error: '' },
     });
+    const [user, setUser] = useState(getUserData());
+
 
     const toggle = () => {
         setModal(!modal);

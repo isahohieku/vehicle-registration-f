@@ -13,17 +13,17 @@ function Sidebar() {
                     <div className="vz_navigation">
                         <ul className="sidebar nav flex-column">
                             <li className="active">
-                                <NavLink to='/app' className="nav-link text-center" data-nav="dashboard">
+                                <NavLink to='/app' className="nav-link text-center" data-nav="dashboard" activeClassName="active" exact={true}>
                                     <i ><Home size={22} /></i><span>Home</span>
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to='/app/applications' className="nav-link text-center" data-nav="dashboard">
+                                <NavLink to='/app/applications' className="nav-link text-center" activeClassName="active" data-nav="dashboard">
                                     <i ><Menu size={22} /></i><span>Applications</span>
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to='/app/settings' className="nav-link text-center" data-nav="dashboard">
+                                <NavLink to='/app/settings' className="nav-link text-center" activeClassName="active" data-nav="dashboard">
                                     <i ><Settings size={22} /></i><span>Settings</span>
                                 </NavLink>
                             </li>
